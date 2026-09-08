@@ -46,9 +46,9 @@ Windows 10/11 64비트와 Microsoft Edge WebView2 Runtime이 필요합니다.
 설정은 `%LOCALAPPDATA%\MLCalculator` 아래에 저장됩니다.
 Windows 코드 서명 인증서는 적용하지 않았습니다.
 
-Windows 화면을 수정할 때는 `android/web/`의 React 원본을 수정하고
-`pnpm build`로 생성된 `android/app/src/main/assets/www/` 내용을
-`windows/www/`에 복사한 뒤 EXE를 다시 빌드합니다.
+Windows 1.1.1 화면은 `windows/frontend/`의 React 원본을 수정하고
+해당 폴더에서 `pnpm build`를 실행한 뒤 EXE를 다시 빌드합니다.
+Windows와 Android 1.1.1에는 `다이아 & 레전드`·`플&골&실` 선택과 예상 모집 탭이 추가되어 있습니다.
 
 ## Android 빌드
 
@@ -63,7 +63,7 @@ cd android
 릴리스 AAB는 로컬 서명키와 `signing.properties`를 준비한 후
 `gradlew.bat bundleRelease`로 빌드합니다. 서명키와 비밀번호는 GitHub에 포함하지 않았습니다.
 기존 Play 앱 업데이트에는 원래 업로드 서명키를 유지해야 합니다.
-패키지명은 `com.arcana.mlcalculator`, 현재 Android 버전은 1.0.3, versionCode는 4입니다.
+패키지명은 `com.arcana.mlcalculator`, 현재 Android 버전은 1.1.1, versionCode는 5입니다.
 
 ## 웹 원본
 

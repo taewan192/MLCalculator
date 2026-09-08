@@ -2,12 +2,13 @@
 
 - 앱 이름: MLCalculator
 - 패키지: com.arcana.mlcalculator
-- 버전: 1.0.3 (versionCode 4)
+- 버전: 1.1.1 (versionCode 5)
 - 최소 Android: 8.0 (API 26)
 - 대상 Android: 16 (API 36)
 
 ## 앱 기능
-플레이어 스텟과 도시 계산기, 9개 언어, 다크/화이트 모드를 포함합니다.
+플레이어 스텟, 도시 계산기, 예상 모집, 9개 언어, 다크/화이트 모드를 포함합니다.
+플레이어 스텟과 예상 모집에서 `다이아 & 레전드`·`플&골&실` 그룹을 선택할 수 있습니다.
 화면과 계산 코드를 앱 내부에 포함했습니다. 로그인이나 인터넷 없이 작동하며, 입력값과 설정은 앱 내부 WebView 저장소에 저장됩니다.
 
 ## 빌드
@@ -25,7 +26,7 @@ Android 소스 루트에서 gradlew.bat bundleRelease lintRelease를 실행하�
 기존 applicationId와 업로드 서명키를 유지하고, 새 버전마다 versionCode를 증가시키세요.
 
 ## Google Play 제출
-MLCalculator-1.0.3-release.aab를 Play Console의 릴리스 화면에 업로드하세요.
+MLCalculator-1.1.1-release.aab를 Play Console의 릴리스 화면에 업로드하세요.
 스토어 설명, 스크린샷, 개인정보처리방침, 데이터 보안 및 콘텐츠 등급 응답, 테스트/심사 절차는 Play Console에서 별도로 작성해야 합니다.
 AAB 생성 및 서명 검증은 Google Play 심사 승인과 별개입니다.
 
