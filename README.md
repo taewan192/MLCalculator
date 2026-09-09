@@ -17,6 +17,7 @@ Android 테스트 APK, Google Play용 AAB를 받을 수 있습니다.
 - 도시 업그레이드 비용, 성벽, 승점, 보유 골드로 가능한 업그레이드 계산
 - 한국어, 영어, 일본어, 중국어, 힌디어, 필리핀어, 태국어, 베트남어, 러시아어
 - 라이트/다크 모드, 입력값과 설정 저장
+- 새 설치 시 영어가 기본 언어이며 설정에서 9개 언어로 변경 가능
 - Windows·Android 앱 내부에 화면과 계산 코드 포함: 오프라인 사용 가능
 
 ## 소스 구성
@@ -46,9 +47,9 @@ Windows 10/11 64비트와 Microsoft Edge WebView2 Runtime이 필요합니다.
 설정은 `%LOCALAPPDATA%\MLCalculator` 아래에 저장됩니다.
 Windows 코드 서명 인증서는 적용하지 않았습니다.
 
-Windows 1.1.1 화면은 `windows/frontend/`의 React 원본을 수정하고
+Windows 1.1.5 화면은 `windows/frontend/`의 React 원본을 수정하고
 해당 폴더에서 `pnpm build`를 실행한 뒤 EXE를 다시 빌드합니다.
-Windows와 Android 1.1.1에는 `다이아 & 레전드`·`플&골&실` 선택과 예상 모집 탭이 추가되어 있습니다.
+Windows와 Android 1.1.5에는 `다이아 & 레전드`·`플&골&실` 선택과 예상 모집 탭이 포함되어 있습니다.
 
 ## Android 빌드
 
@@ -63,7 +64,7 @@ cd android
 릴리스 AAB는 로컬 서명키와 `signing.properties`를 준비한 후
 `gradlew.bat bundleRelease`로 빌드합니다. 서명키와 비밀번호는 GitHub에 포함하지 않았습니다.
 기존 Play 앱 업데이트에는 원래 업로드 서명키를 유지해야 합니다.
-패키지명은 `com.arcana.mlcalculator`, 현재 Android 버전은 1.1.1, versionCode는 5입니다.
+패키지명은 `com.arcana.mlcalculator`, 현재 Android 버전은 1.1.5, versionCode는 9입니다.
 
 ## 웹 원본
 

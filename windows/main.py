@@ -21,7 +21,7 @@ def main():
     kernel.CreateMutexW.restype = ctypes.c_void_p
     mutex = kernel.CreateMutexW(None, False, 'Local\\MLCalculator.Desktop' + ('.Test' if TEST else ''))
     if kernel.GetLastError() == 183:
-        ctypes.windll.user32.MessageBoxW(None, 'MLCalculator가 이미 실행 중입니다.', 'MLCalculator', 0x40)
+        ctypes.windll.user32.MessageBoxW(None, 'MLCalculator is already running.', 'MLCalculator', 0x40)
         return
     import webview
     window = webview.create_window(
@@ -46,6 +46,7 @@ def main():
             report['restored'] = js("JSON.parse(localStorage.getItem('mlcalculator') || '{}')")
             report['dark'] = js("document.documentElement.classList.contains('dark')")
             report['lang'] = js('document.documentElement.lang')
+            assert report['lang'] == 'en', report
             window.run_js("document.querySelectorAll('.bottom-nav [role=tab]')[1].click()")
             time.sleep(0.5)
             window.run_js("document.querySelector('.primary-action').click()")
@@ -59,8 +60,8 @@ def main():
                 time.sleep(0.15)
             window.run_js("document.querySelectorAll('.bottom-nav [role=tab]')[0].click()")
             time.sleep(0.4)
-            report['koreanLeagueLabels'] = js("Array.from(document.querySelectorAll('.playerLeague [role=tab]')).map(x=>x.textContent)")
-            assert report['koreanLeagueLabels'] == ['다이아 & 레전드', '플&골&실'], report
+            report['defaultLeagueLabels'] = js("Array.from(document.querySelectorAll('.playerLeague [role=tab]')).map(x=>x.textContent)")
+            assert report['defaultLeagueLabels'] == ['Dia & LL', 'P,G,S'], report
             fill('troops', '1G')
             fill('equipment', '300')
             fill('level', '105')
@@ -108,17 +109,17 @@ def main():
             time.sleep(0.5)
             assert js("document.documentElement.classList.contains('dark')")
             report['saved'] = js("JSON.parse(localStorage.getItem('mlcalculator'))")
-            window.run_js("var s=JSON.parse(localStorage.getItem('mlcalculator'));s.lang='en';localStorage.setItem('mlcalculator',JSON.stringify(s));location.reload()")
+            window.run_js("var s=JSON.parse(localStorage.getItem('mlcalculator'));s.lang='ko';localStorage.setItem('mlcalculator',JSON.stringify(s));location.reload()")
             for _ in range(30):
                 time.sleep(0.3)
                 try:
-                    if js("document.documentElement.lang") == 'en':
+                    if js("document.documentElement.lang") == 'ko':
                         break
                 except Exception:
                     pass
-            report['englishLeagueLabels'] = js("Array.from(document.querySelectorAll('.playerLeague [role=tab]')).map(x=>x.textContent)")
-            assert report['englishLeagueLabels'] == ['Dia & LL', 'P,G,S'], report
-            window.run_js("var s=JSON.parse(localStorage.getItem('mlcalculator'));s.lang='ko';localStorage.setItem('mlcalculator',JSON.stringify(s))")
+            report['koreanLeagueLabels'] = js("Array.from(document.querySelectorAll('.playerLeague [role=tab]')).map(x=>x.textContent)")
+            assert report['koreanLeagueLabels'] == ['다이아 & 레전드', '플&골&실'], report
+            window.run_js("var s=JSON.parse(localStorage.getItem('mlcalculator'));s.lang='en';localStorage.setItem('mlcalculator',JSON.stringify(s))")
             report['ok'] = True
         except Exception:
             report['error'] = traceback.format_exc()
@@ -139,6 +140,6 @@ if __name__ == '__main__':
         (DATA_DIR / 'error.log').write_text(traceback.format_exc(), encoding='utf-8')
         if not TEST:
             ctypes.windll.user32.MessageBoxW(None,
-                '프로그램을 실행하지 못했습니다. Microsoft Edge WebView2 Runtime 설치를 확인하세요.\n오류 기록: ' + str(DATA_DIR / 'error.log'),
+                'Could not start the app. Check that Microsoft Edge WebView2 Runtime is installed.\nError log: ' + str(DATA_DIR / 'error.log'),
                 'MLCalculator', 0x10)
         raise

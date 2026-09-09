@@ -26,7 +26,7 @@ LANGUAGE_NAMES = {
 LANGUAGE_FONTS = {"ko": "Malgun Gothic", "en": "Segoe UI", "ja": "Yu Gothic",
                   "zh": "Microsoft YaHei", "hi": "Nirmala UI", "fil": "Segoe UI",
                   "th": "Leelawadee UI", "vi": "Segoe UI", "ru": "Segoe UI"}
-CURRENT_LANGUAGE = "ko"
+CURRENT_LANGUAGE = "en"
 UI_FONT = LANGUAGE_FONTS[CURRENT_LANGUAGE]
 TRANSLATIONS = {
   "ko": {
@@ -1150,10 +1150,10 @@ class MillionLordsApp(tk.Tk):
         try:
             saved = json.loads(SETTINGS_FILE.read_text(encoding="utf-8"))
             self.theme = "dark" if saved.get("theme") == "dark" else "light"
-            language = saved.get("language", "ko")
-            CURRENT_LANGUAGE = language if language in LANGUAGE_NAMES else "ko"
+            language = saved.get("language", "en")
+            CURRENT_LANGUAGE = language if language in LANGUAGE_NAMES else "en"
         except (OSError, ValueError, AttributeError, TypeError):
-            CURRENT_LANGUAGE = "ko"
+            CURRENT_LANGUAGE = "en"
         UI_FONT = LANGUAGE_FONTS[CURRENT_LANGUAGE]
         self.geometry("1180x660")
         self.minsize(1120, 620)
