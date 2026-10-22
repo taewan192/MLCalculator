@@ -1,6 +1,6 @@
-# MLCalculator Windows 1.1.1
+# MLCalculator Windows 1.1.6
 
-MLCalculator-1.1.1-Windows.exe를 실행하세요. Windows 10/11 64비트와 Microsoft Edge WebView2 Runtime이 필요하며 Python 설치는 필요 없습니다.
+MLCalculator-1.1.6-Windows.exe를 실행하세요. Windows 10/11 64비트와 Microsoft Edge WebView2 Runtime이 필요하며 Python 설치는 필요 없습니다.
 
 ## 추가 기능
 
@@ -16,6 +16,7 @@ MLCalculator-1.1.1-Windows.exe를 실행하세요. Windows 10/11 64비트와 Mic
 - 플레 공격력 = 병력 × (100 + 장비 공격력 + (레벨 − 1) × 2) ÷ 100
 - 다이아 모집 = 부대 생산량 × (장비 모집 + (레벨 − 1) × 6) ÷ 100
 - 플레 모집 = 부대 생산량 × (장비 모집 + (레벨 − 1) × 3) ÷ 100
+- 도시 부대 생산량 = 목표 레벨 도시당 승점 × 3 × 도시 수
 
 모집에는 기본 100%를 별도로 더하지 않습니다. 모집 결과는 단위에 맞춰 소수점 한 자리까지 표시하며, 계산에는 반올림 전 값을 사용합니다.
 병력 1G·장비 300%·레벨 105: 다이아 8.16G / 플레 6.08G.

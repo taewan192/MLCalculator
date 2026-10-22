@@ -49,10 +49,13 @@ def main():
             assert report['lang'] == 'en', report
             window.run_js("document.querySelectorAll('.bottom-nav [role=tab]')[1].click()")
             time.sleep(0.5)
+            window.run_js("var el=document.querySelector('input[name=target]'); Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set.call(el,'130'); el.dispatchEvent(new Event('input',{bubbles:true}));")
             window.run_js("document.querySelector('.primary-action').click()")
             time.sleep(0.5)
             report['cityResult'] = js("document.querySelector('.gold-result')?.innerText")
+            report['cityProduction'] = js("Array.from(document.querySelectorAll('.metric')).find(x=>x.textContent.includes('Troop production'))?.querySelector('strong')?.textContent")
             assert report['cityResult'], report
+            assert report['cityProduction'] == '75.3M', report
             window.run_js("document.querySelectorAll('.bottom-nav [role=tab]')[2].click()")
             time.sleep(0.5)
             def fill(name, value):
