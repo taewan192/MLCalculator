@@ -10,6 +10,31 @@ export function upgrade(c:number,start:number,gold:number){const level=Math.floo
 export function attack(troops:number,equipment:number,level:number,league:string){
  return checked(troops*(100+equipment+(level-1)*(league==='platinum'?2:4))/100);
 }
+
+export function skillAttack(troops: number, equipment: number, attackSkill: number) {
+ return checked(troops * ((equipment + attackSkill * 2 + 100) / 100));
+}
+
+const percentileBands = [100, 80, 60, 50, 25, 6, 1] as const;
+
+export function estimatePercentileRanks(rankInput: string, percentInput: string) {
+ const rankText = rankInput.trim();
+ const rank = Number(rankText.replaceAll(',', ''));
+ if (!/^(?:\d+|\d{1,3}(?:,\d{3})+)$/.test(rankText) || !Number.isSafeInteger(rank) || rank < 1) {
+  throw Error('percentile.rankError');
+ }
+ const percentText = percentInput.trim().replace(/\s*%$/, '');
+ const percent = Number(percentText.replace(',', '.'));
+ if (!/^(?:\d+(?:[.,]\d+)?|[.,]\d+)$/.test(percentText) || percent <= 0 || percent > 100) {
+  throw Error('percentile.percentError');
+ }
+ const total = Math.round(rank / (percent / 100));
+ if (!Number.isSafeInteger(total)) throw Error('percentile.rangeError');
+ return percentileBands.map(band => ({
+  band,
+  rank: Math.max(1, Math.floor(total / 100) * band + Math.floor((total % 100) * band / 100)),
+ }));
+}
 function checked(n:number){if(!Number.isFinite(n)||n<0)throw Error('유효한 숫자를 입력하세요.');return n;}
 export function recruitment(production:number,equipment:number,level:number,league:string){
  const percent=equipment+(level-1)*(league==='platinum'?3:6);

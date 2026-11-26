@@ -38,11 +38,11 @@ def main():
                 return json.loads(raw) if isinstance(raw, str) else raw
             for _ in range(60):
                 time.sleep(0.5)
-                if js("document.querySelectorAll('.bottom-nav [role=tab]').length") == 4:
+                if js("document.querySelectorAll('.bottom-nav [role=tab]').length") == 5:
                     break
             report['title'] = js('document.title')
             report['tabs'] = js("Array.from(document.querySelectorAll('.bottom-nav [role=tab]')).map(x=>x.textContent)")
-            assert len(report['tabs']) == 4, report
+            assert len(report['tabs']) == 5, report
             report['restored'] = js("JSON.parse(localStorage.getItem('mlcalculator') || '{}')")
             report['dark'] = js("document.documentElement.classList.contains('dark')")
             report['lang'] = js('document.documentElement.lang')
@@ -81,6 +81,19 @@ def main():
             time.sleep(0.3)
             report['platinumAttack'] = js("document.querySelector('[data-testid=attack-total]').textContent")
             assert report['platinumAttack'] == '6.08G', report
+            window.run_js("document.querySelector('.skill-toggle').click()")
+            time.sleep(0.3)
+            assert js("document.querySelector('input[name=level]') === null")
+            fill('equipment', '171')
+            fill('troops', '269G')
+            fill('attackSkill', '184')
+            window.run_js("document.querySelector('.primary-action').click()")
+            time.sleep(0.3)
+            report['skillAttack'] = js("document.querySelector('[data-testid=attack-total]').textContent")
+            assert report['skillAttack'] == '1.72T', report
+            window.run_js("document.querySelector('.skill-toggle').click()")
+            time.sleep(0.3)
+            assert js("document.querySelector('input[name=level]').value") == '105'
             fill('direct', '4.73M')
             window.run_js("document.querySelector('.secondary-action').click()")
             time.sleep(0.3)
@@ -105,6 +118,18 @@ def main():
             report['platinumRecruitment'] = js("document.querySelector('[data-testid=recruit-total]').textContent")
             assert report['platinumRecruitment'] == '20.6G', report
             window.run_js("document.querySelectorAll('.bottom-nav [role=tab]')[3].click()")
+            time.sleep(0.4)
+            fill('rank', '250')
+            fill('percentile', '6,25%')
+            window.run_js("document.querySelector('.primary-action').click()")
+            time.sleep(0.3)
+            report['percentiles'] = js("Array.from(document.querySelectorAll('[data-percentile]'), row => [row.dataset.percentile, row.querySelector('dd').textContent])")
+            assert report['percentiles'] == [['100', '4,000'], ['80', '3,200'], ['60', '2,400'], ['50', '2,000'], ['25', '1,000'], ['6', '240'], ['1', '40']], report
+            fill('percentile', '0')
+            window.run_js("document.querySelector('.primary-action').click()")
+            time.sleep(0.3)
+            assert js("document.querySelector('[role=alert]')?.textContent") == 'Enter a top percentage greater than 0 and at most 100.'
+            window.run_js("document.querySelectorAll('.bottom-nav [role=tab]')[4].click()")
             time.sleep(0.5)
             report['settings'] = js("!!document.querySelector('.language-select') && document.querySelectorAll('.theme-switch [role=tab]').length === 2")
             assert report['settings'], report
@@ -122,6 +147,19 @@ def main():
                     pass
             report['koreanLeagueLabels'] = js("Array.from(document.querySelectorAll('.playerLeague [role=tab]')).map(x=>x.textContent)")
             assert report['koreanLeagueLabels'] == ['다이아 & 레전드', '플&골&실'], report
+            window.run_js("document.querySelectorAll('.bottom-nav [role=tab]')[4].click()")
+            time.sleep(0.4)
+            window.run_js("document.querySelector('.language-select').click()")
+            time.sleep(0.4)
+            window.run_js("Array.from(document.querySelectorAll('[role=option]')).find(x=>x.textContent.includes('Bahasa Indonesia')).click()")
+            time.sleep(0.4)
+            assert js("document.documentElement.lang") == 'id'
+            window.run_js("document.querySelector('.guide-toggle').click()")
+            time.sleep(0.4)
+            report['indonesianGuide'] = js("({title:document.querySelector('.guide-toggle').textContent, sections:document.querySelectorAll('.guide-card').length, loadedImage:document.querySelector('.guide-photo img').naturalWidth, caption:document.querySelector('.guide-photo figcaption').textContent})")
+            assert report['indonesianGuide']['title'] == 'Cara Menggunakan Aplikasi', report
+            assert report['indonesianGuide']['sections'] == 4, report
+            assert report['indonesianGuide']['loadedImage'] == 620 and '184' in report['indonesianGuide']['caption'], report
             window.run_js("var s=JSON.parse(localStorage.getItem('mlcalculator'));s.lang='en';localStorage.setItem('mlcalculator',JSON.stringify(s))")
             report['ok'] = True
         except Exception:
